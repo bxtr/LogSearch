@@ -1,5 +1,6 @@
 package bxtr;
 
+import java.util.List;
 import java.util.Map;
 
 public class Main {
@@ -13,9 +14,19 @@ public class Main {
     }
 
 
-    private static void printMap(Map<Integer, String> map) {
+    public static void printMap(Map<Integer, String> map) {
         for(Integer key : map.keySet()) {
             System.out.println(String.format("#%d %s", key, map.get(key)));
+        }
+    }
+
+    public static void printErrorMap(Map<Integer, List<String>> map) {
+        for(Integer key : map.keySet()) {
+            System.out.println(String.format("#%d", key));
+            for(String message : map.get(key)) {
+                System.out.println(message);
+            }
+            System.out.println();
         }
     }
 }

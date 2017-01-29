@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -61,5 +62,9 @@ public class LogSearch {
     public LogSearch file(String filename) {
         this.filename = filename;
         return this;
+    }
+
+    public Map<Integer, List<String>> find(ErrorLogMessage errorLogMessage) {
+        return errorLogMessage.find(filename);
     }
 }
