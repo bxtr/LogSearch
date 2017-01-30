@@ -27,21 +27,26 @@ public class ErrorLogMessage {
         try(BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             int lineIndex = 1;
+            boolean flag = false;
+            int currentLineIndex = 0;
             while ((line = reader.readLine()) != null) {
                 if(beginPattern.matcher(line).find()) {
-                    int currentLineIndex = lineIndex;
+                    flag = true;
+                    currentLineIndex = lineIndex;
                     map.put(currentLineIndex, new ArrayList<>());
+                }
+                if(endPattern.matcher(line).find()) {
+                    flag = false;
+                }
+                if(flag) {
                     map.get(currentLineIndex).add(line);
-                    while ((line = reader.readLine()) != null &&
-                            !endPattern.matcher(line).find()){
-                        map.get(currentLineIndex).add(line);
-                        lineIndex++;
-                    }
+                }
+                if(beginPattern.matcher(line).find() && map.get(currentLineIndex).size() > 1) {
+                    currentLineIndex = lineIndex;
+                    map.put(currentLineIndex, new ArrayList<>());
                 }
                 lineIndex++;
             }
-        } catch (FileNotFoundException exception) {
-            exception.printStackTrace();
         } catch (IOException exception) {
             exception.printStackTrace();
         }

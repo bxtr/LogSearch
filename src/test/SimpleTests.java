@@ -32,9 +32,6 @@ public class SimpleTests {
     @Test
     public void ПоискERRORСообщенийВЛоге() {
        Map<Integer, List<String>> map = LogSearch.build().file(TEST_APPLICATION_LOG_FILE).find(new ErrorLogMessage());
-       Main.printErrorMap(map);
-       Assert.assertFalse(map.size() == 0);
+       Assert.assertTrue(map.size() == 12);
     }
-
-
 }
