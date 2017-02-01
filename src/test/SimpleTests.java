@@ -1,7 +1,6 @@
 package test;
-import bxtr.ErrorLogMessage;
+import bxtr.ErrorLogFinder;
 import bxtr.LogSearch;
-import bxtr.Main;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,7 +30,7 @@ public class SimpleTests {
 
     @Test
     public void ПоискERRORСообщенийВЛоге() {
-       Map<Integer, List<String>> map = LogSearch.build().file(TEST_APPLICATION_LOG_FILE).find(new ErrorLogMessage());
+       Map<Integer, List<String>> map = LogSearch.build().file(TEST_APPLICATION_LOG_FILE).find(new ErrorLogFinder());
        Assert.assertTrue(map.size() == 12);
     }
 }

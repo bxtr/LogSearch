@@ -64,7 +64,7 @@ public class LogSearch {
         return this;
     }
 
-    public Map<Integer, List<String>> find(ErrorLogMessage errorLogMessage) {
-        return errorLogMessage.find(filename);
+    public Map<Integer, List<String>> find(AbstractFinder finder) {
+        return finder.find(filename);
     }
 }
