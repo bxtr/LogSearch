@@ -2,6 +2,7 @@ package bxtr;
 
 import bxtr.finder.AbstractFinder;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,9 @@ public class LogSearch {
      * @return мапа ключ - строчка вхождения, значение - найденные сообщения.
      */
     public Map<Integer, List<String>> find(AbstractFinder finder) {
+        if (filename == null) {
+            return new HashMap<>();
+        }
         return finder.find(filename);
     }
 }
