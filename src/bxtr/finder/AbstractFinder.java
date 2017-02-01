@@ -1,4 +1,4 @@
-package bxtr;
+package bxtr.finder;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

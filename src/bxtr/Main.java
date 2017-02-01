@@ -1,5 +1,7 @@
 package bxtr;
 
+import bxtr.finder.SubstringFinder;
+
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +12,7 @@ public class Main {
 	        System.out.println("Первый передаваемый параметр путь к файлу, второй строка для поиска.");
 	        return;
         }
-        printMap(LogSearch.build().file(args[0]).search(args[1]));
+        printErrorMap(LogSearch.build().file(args[0]).find(new SubstringFinder(args[1])));
     }
 
 

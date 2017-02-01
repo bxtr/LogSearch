@@ -1,6 +1,7 @@
 package test;
-import bxtr.ErrorLogFinder;
+import bxtr.finder.ErrorLogFinder;
 import bxtr.LogSearch;
+import bxtr.finder.SubstringFinder;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,19 +19,22 @@ public class SimpleTests {
 
     @Test
     public void ПоискЗаданнойСтрокиВФайлеНеСодержащемЕе() {
-        Map<Integer, String> map = LogSearch.build().file(TEST_LOG_FILE).search("Exception");
+        Map<Integer, List<String>> map = LogSearch.build().file(TEST_LOG_FILE)
+                .find(new SubstringFinder("Exception"));
         Assert.assertEquals(0, map.size());
     }
 
     @Test
     public void ПоискЗаданнойСтрокиВФайлеСодержащемЕе() {
-        Map<Integer, String> map = LogSearch.build().file(TEST_LOG_FILE).search("filename");
+        Map<Integer, List<String>> map = LogSearch.build().file(TEST_LOG_FILE)
+                .find(new SubstringFinder("filename"));
         Assert.assertEquals(1, map.size());
     }
 
     @Test
     public void ПоискERRORСообщенийВЛоге() {
-       Map<Integer, List<String>> map = LogSearch.build().file(TEST_APPLICATION_LOG_FILE).find(new ErrorLogFinder());
-       Assert.assertTrue(map.size() == 12);
+        Map<Integer, List<String>> map = LogSearch.build().file(TEST_APPLICATION_LOG_FILE)
+                .find(new ErrorLogFinder());
+        Assert.assertTrue(map.size() == 12);
     }
 }
