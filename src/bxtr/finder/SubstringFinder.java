@@ -3,6 +3,7 @@ package bxtr.finder;
 import java.util.regex.Pattern;
 
 /**
+ * Поисковик заданной подстроки.
  * Created by bxtr on 01.02.2017.
  */
 public class SubstringFinder extends AbstractFinder {
