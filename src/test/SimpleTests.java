@@ -3,7 +3,7 @@ package test;
 import bxtr.LogSearch;
 import bxtr.finder.ErrorLogFinder;
 import bxtr.finder.SimpleReader;
-import bxtr.finder.SubstringFinder;
+import bxtr.finder.SubstringFilter;
 import org.junit.Test;
 
 /**
@@ -18,7 +18,7 @@ public class SimpleTests {
     @Test
     public void ПоискЗаданнойСтрокиВФайлеНеСодержащемЕе() {
             LogSearch logSearch = new LogSearch(new SimpleReader()).file(TEST_LOG_FILE)
-                    .find(new SubstringFinder("Exception")).execute();
+                    .find(new SubstringFilter("Exception")).execute();
             logSearch.consoleLog();
        // Assert.assertEquals(0, map.size());
     }
@@ -26,7 +26,7 @@ public class SimpleTests {
     @Test
     public void ПоискЗаданнойСтрокиВФайлеСодержащемЕе() {
         LogSearch logSearch = new LogSearch(new SimpleReader()).file(TEST_LOG_FILE)
-                .find(new SubstringFinder("filename")).execute();
+                .find(new SubstringFilter("filename")).execute();
         logSearch.consoleLog();
     //    Main.printErrorMap(map);
      //   Assert.assertEquals(1, map.size());
@@ -38,5 +38,23 @@ public class SimpleTests {
                 .find(new ErrorLogFinder()).execute();
         logSearch.consoleLog();
         //Assert.assertTrue(map.size() == 12);
+    }
+
+/*
+    @Test
+    public void ПоискERRORСообщенийПользователя() {
+        LogSearch logSearch = new LogSearch(new SimpleReader()).file(TEST_APPLICATION_LOG_FILE)
+                .find(new UserErrorFinder("podolyak-eo")).execute();
+        logSearch.consoleLog();
+    }
+*/
+
+    @Test
+    public void ПоискВыдающийТолькоТеБлокиERRORСообщенийВКоторыхЕстьSQLException() {
+        LogSearch logSearch = new LogSearch(new SimpleReader()).file(TEST_APPLICATION_LOG_FILE)
+                .find(new ErrorLogFinder())
+                .filter(new SubstringFilter("PL/SQL"))
+                .execute();
+        logSearch.consoleLog();
     }
 }

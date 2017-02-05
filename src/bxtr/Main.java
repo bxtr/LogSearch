@@ -1,6 +1,5 @@
 package bxtr;
 
-import bxtr.finder.SubstringFinder;
 
 import java.util.List;
 import java.util.Map;

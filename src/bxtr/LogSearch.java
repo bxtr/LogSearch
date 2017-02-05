@@ -18,7 +18,7 @@ public class LogSearch {
     private String filename = null;
     private Reader reader;
     private Observable observable;
-    private List<Observer> observerList;
+    private List<Observer> observerConsoleOutList;
 
     public LogSearch(Observable observable) {
         if (observable instanceof Reader) {
@@ -27,7 +27,7 @@ public class LogSearch {
             reader = new SimpleReader();
         }
         this.observable = observable;
-        observerList = new ArrayList<>();
+        observerConsoleOutList = new ArrayList<>();
     }
 
     /**
@@ -42,12 +42,18 @@ public class LogSearch {
 
     public LogSearch find(Observer observer) {
         observable.addObserver(observer);
-        observerList.add(observer);
+      //  observerConsoleOutList.add(observer);
+        return this;
+    }
+
+    public LogSearch filter(Observer observer) {
+        observable.addObserver(observer);
+        observerConsoleOutList.add(observer);
         return this;
     }
 
     public void consoleLog() {
-        for (Observer observer : observerList) {
+        for (Observer observer : observerConsoleOutList) {
             if (observer instanceof ConsoleOutput) {
                 ((ConsoleOutput) observer).console();
             }
