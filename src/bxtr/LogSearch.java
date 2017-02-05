@@ -42,7 +42,7 @@ public class LogSearch {
 
     public LogSearch find(Observer observer) {
         observable.addObserver(observer);
-      //  observerConsoleOutList.add(observer);
+        observerConsoleOutList.add(observer);
         return this;
     }
 

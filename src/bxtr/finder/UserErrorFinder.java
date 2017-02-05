@@ -24,7 +24,7 @@ public class UserErrorFinder  implements Observer, ConsoleOutput {
 
     public UserErrorFinder(String name) {
         this.name = name;
-        this.BEGIN_MESSAGE_PATTERN = Pattern.compile(".*"+name+".*");
+        this.BEGIN_MESSAGE_PATTERN = Pattern.compile(".*INFO.*name=\'"+name+"\'.*");
         flag = false;
         map = new HashMap<>();
     }
@@ -35,15 +35,15 @@ public class UserErrorFinder  implements Observer, ConsoleOutput {
             SimpleReader reader = (SimpleReader) o;
             line = reader.getLine();
             lineNumber = reader.getLineNumber();
-            if(BEGIN_MESSAGE_PATTERN.matcher(line).find() && INTERMEDIATE_MESSAGE_PATTERN.matcher(line).find()) {
+            if(BEGIN_MESSAGE_PATTERN.matcher(line).find() ) {
                 flag = true;
                 currentLineIndex = reader.getLineNumber();
                 map.put(currentLineIndex, new ArrayList<>());
             }
-            if(flag) {
+            if(flag && INTERMEDIATE_MESSAGE_PATTERN.matcher(line).find()) {
                 map.get(currentLineIndex).add(line);
             }
-            if(END_MESSAGE_PATTERN.matcher(line).find()) {
+            if(flag && END_MESSAGE_PATTERN.matcher(line).find() && map.get(currentLineIndex).size() > 1) {
                 flag = false;
             }
         }

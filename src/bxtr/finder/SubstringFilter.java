@@ -13,6 +13,7 @@ public class SubstringFilter implements Observer, ConsoleOutput, Filter{
     public final Pattern SUBSTRING;
 
     private Map<Integer, List<String>> map;
+    private Map<Integer, List<String>> filterMap;
 
     public SubstringFilter(String stringToFind){
         SUBSTRING = Pattern.compile(stringToFind);
@@ -21,7 +22,10 @@ public class SubstringFilter implements Observer, ConsoleOutput, Filter{
 
     @Override
     public void console() {
-        Main.printErrorMap(map);
+        if(filterMap == null) {
+            Main.printErrorMap(map);
+        }
+        Main.printErrorMap(filterMap);
     }
 
     @Override
@@ -39,15 +43,15 @@ public class SubstringFilter implements Observer, ConsoleOutput, Filter{
 
     @Override
     public Map<Integer, List<String>> filter(Map<Integer, List<String>> messages) {
-        Map<Integer, List<String>> filteredMap = new HashMap<>();
+        filterMap = new HashMap<>();
         for(Integer lineIndex : messages.keySet()) {
             if (map.containsKey(lineIndex)) {
-                if(!filteredMap.containsKey(lineIndex)) {
-                    filteredMap.put(lineIndex, new ArrayList<>());
+                if(!filterMap.containsKey(lineIndex)) {
+                    filterMap.put(lineIndex, new ArrayList<>());
                 }
-                filteredMap.put(lineIndex, messages.get(lineIndex));
+                filterMap.put(lineIndex, messages.get(lineIndex));
             }
         }
-        return filteredMap;
+        return filterMap;
     }
 }

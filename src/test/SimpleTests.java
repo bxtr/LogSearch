@@ -16,7 +16,8 @@ public class SimpleTests {
 
     public static final String TEST_LOG_FILE = "C:\\Users\\basic\\IdeaProjects\\LogSearch\\log.log";
     public static final String TEST_SERVER_LOG_FILE = "C:\\Users\\basic\\IdeaProjects\\LogSearch\\server_log.log";
-    public static final String TEST_APPLICATION_LOG_FILE = "C:\\Users\\egor\\IdeaProjects\\LogSearch\\application.log";
+    public static final String TEST_APPLICATION_LOG_FILE = "C:\\Users\\basic\\IdeaProjects\\LogSearch\\application.log";
+    public static final String SHORT_LOG_FILE = "C:\\Users\\basic\\IdeaProjects\\LogSearch\\short_log.log";
 
     @Test
     public void ПоискЗаданнойСтрокиВФайлеНеСодержащемЕе() {
@@ -46,12 +47,19 @@ public class SimpleTests {
     @Test
     public void ПоискERRORСообщенийПользователя() {
         LogSearch logSearch = new LogSearch(new SimpleReader()).file(TEST_APPLICATION_LOG_FILE)
-                .find((Observer) new UserErrorFinder("podolyak-ea")).execute();
+                .find(new UserErrorFinder("podolyak-ea")).execute();
         logSearch.consoleLog();
     }
 
     @Test
-    public void ПоискВыдающийТолькоТеБлокиERRORСообщенийВКоторыхЕстьSQLException() {
+    public void ПоискСообщенийВнутриERRORБлока() {
+        LogSearch logSearch = new LogSearch(new SimpleReader()).file(SHORT_LOG_FILE)
+                .find(new UserErrorFinder("podolyak-ea")).execute();
+        logSearch.consoleLog();
+    }
+
+    @Test
+    public void ПоискВыдающийТолькоТеБлокиERRORСообщенийВКоторыхЕстьPLSQL() {
         LogSearch logSearch = new LogSearch(new SimpleReader()).file(TEST_APPLICATION_LOG_FILE)
                 .find(new ErrorLogFinder())
                 .filter(new SubstringFilter("PL/SQL"))
