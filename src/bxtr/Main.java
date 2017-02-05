@@ -12,7 +12,7 @@ public class Main {
 	        System.out.println("Первый передаваемый параметр путь к файлу, второй строка для поиска.");
 	        return;
         }
-        printErrorMap(LogSearch.build().file(args[0]).find(new SubstringFinder(args[1])));
+      //  printErrorMap(LogSearch.build().file(args[0]).find(new SubstringFinder(args[1])));
     }
 
 

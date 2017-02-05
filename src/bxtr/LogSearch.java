@@ -1,10 +1,14 @@
 package bxtr;
 
-import bxtr.finder.AbstractFinder;
 
-import java.util.HashMap;
+import bxtr.finder.ConsoleOutput;
+import bxtr.finder.Reader;
+import bxtr.finder.SimpleReader;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Класс для поиска нужных строк в логах.
@@ -12,17 +16,18 @@ import java.util.Map;
  */
 public class LogSearch {
     private String filename = null;
+    private Reader reader;
+    private Observable observable;
+    private List<Observer> observerList;
 
-    private LogSearch() {
-        //empty
-    }
-
-    /**
-     * Возращает экземпляр класс.
-     * @return
-     */
-    public static LogSearch build() {
-        return new LogSearch();
+    public LogSearch(Observable observable) {
+        if (observable instanceof Reader) {
+            reader = (Reader) observable;
+        } else {
+            reader = new SimpleReader();
+        }
+        this.observable = observable;
+        observerList = new ArrayList<>();
     }
 
     /**
@@ -35,15 +40,24 @@ public class LogSearch {
         return this;
     }
 
-    /**
-     * Метод делегирующий поиск поисковику.
-     * @param finder поисковик
-     * @return мапа ключ - строчка вхождения, значение - найденные сообщения.
-     */
-    public Map<Integer, List<String>> find(AbstractFinder finder) {
-        if (filename == null) {
-            return new HashMap<>();
+    public LogSearch find(Observer observer) {
+        observable.addObserver(observer);
+        observerList.add(observer);
+        return this;
+    }
+
+    public void consoleLog() {
+        for (Observer observer : observerList) {
+            if (observer instanceof ConsoleOutput) {
+                ((ConsoleOutput) observer).console();
+            }
         }
-        return finder.find(filename);
+    }
+
+    public LogSearch execute() {
+        if (filename != null) {
+            reader.read(filename);
+        }
+        return this;
     }
 }
