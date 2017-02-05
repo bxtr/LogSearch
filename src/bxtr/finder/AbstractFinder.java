@@ -39,15 +39,11 @@ public abstract class AbstractFinder {
                     currentLineIndex = reader.getLineNumber();
                     map.put(currentLineIndex, new ArrayList<>());
                 }
-                if(endPattern.matcher(line).find()) {
-                    flag = false;
-                }
                 if(flag) {
                     map.get(currentLineIndex).add(line);
                 }
-                if(beginPattern.matcher(line).find() && map.get(currentLineIndex).size() > 1) {
-                    currentLineIndex = reader.getLineNumber();
-                    map.put(currentLineIndex, new ArrayList<>());
+                if(endPattern.matcher(line).find()) {
+                    flag = false;
                 }
             }
         } catch (IOException exception) {
