@@ -1,4 +1,5 @@
 package test;
+import bxtr.Main;
 import bxtr.finder.ErrorLogFinder;
 import bxtr.LogSearch;
 import bxtr.finder.SubstringFinder;
@@ -21,6 +22,7 @@ public class SimpleTests {
     public void ПоискЗаданнойСтрокиВФайлеНеСодержащемЕе() {
         Map<Integer, List<String>> map = LogSearch.build().file(TEST_LOG_FILE)
                 .find(new SubstringFinder("Exception"));
+        Main.printErrorMap(map);
         Assert.assertEquals(0, map.size());
     }
 
@@ -28,6 +30,7 @@ public class SimpleTests {
     public void ПоискЗаданнойСтрокиВФайлеСодержащемЕе() {
         Map<Integer, List<String>> map = LogSearch.build().file(TEST_LOG_FILE)
                 .find(new SubstringFinder("filename"));
+        Main.printErrorMap(map);
         Assert.assertEquals(1, map.size());
     }
 
@@ -35,6 +38,7 @@ public class SimpleTests {
     public void ПоискERRORСообщенийВЛоге() {
         Map<Integer, List<String>> map = LogSearch.build().file(TEST_APPLICATION_LOG_FILE)
                 .find(new ErrorLogFinder());
+        Main.printErrorMap(map);
         Assert.assertTrue(map.size() == 12);
     }
 }
